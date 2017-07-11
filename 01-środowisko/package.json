@@ -1,0 +1,22 @@
+{
+  "name": "tutorial01",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "rimraf dist && webpack",
+    "start": "webpack-dev-server --open",
+    "build:watch": "rimraf dist && webpack --watch"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "html-webpack-plugin": "^2.29.0",
+    "rimraf": "^2.6.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.1.0",
+    "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "extract-text-webpack-plugin": "^3.0.0",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6"
+  }
+}
