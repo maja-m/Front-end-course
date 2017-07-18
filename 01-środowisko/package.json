@@ -7,10 +7,17 @@
     "build:watch": "rimraf dist && webpack --watch"
   },
   "devDependencies": {
+    "@types/jquery": "^3.2.9",
+    "babel-cli": "^6.24.1",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
     "css-loader": "^0.28.4",
     "html-webpack-plugin": "^2.29.0",
+    "jquery": "^3.2.1",
     "rimraf": "^2.6.1",
     "style-loader": "^0.18.2",
+    "ts-loader": "^2.3.0",
+    "typescript": "^2.4.1",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.5.0"
   },

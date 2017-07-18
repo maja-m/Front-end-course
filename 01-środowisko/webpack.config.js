@@ -8,14 +8,25 @@ const extractStyles = new ExtractTextPlugin({
 
 module.exports = {
     entry: {
-        main: './src/app.js'      //główny plik js, zarządza resztą, twój
+        main: './src/app.ts'      //główny plik js, zarządza resztą, twój
     },
     output: {
         path: path.resolve('dist'),            //to będzie folder docelowy, do którego będą zebrane wszystkie importy; dostanei to klient
         filename: '[name].js'           //name to main
     },
+    resolve: {
+        extensions: ['.ts', '.js', '.json']
+    },
     module: {
         rules: [
+            {
+                test: /\.ts$/,
+                use: [
+                    'babel-loader',
+                    'ts-loader'
+                ],
+                exclude: /node_modules/
+            },
             {
                 test: /\.css$/,  //albo new RegExp('\.css$') jeśli spełnia, to ma użyć
                 use: ExtractTextPlugin.extract({

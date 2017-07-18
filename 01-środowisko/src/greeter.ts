@@ -1,5 +1,7 @@
 export class Greeter {                              //export żeby można było robić import i korzystać z klasy Greeter w innym skrypcie
-    constructor(name) {                             //jeśli nie jest dodany jako <script> w html-u
+    private name: string;
+
+    constructor(name: string) {                             //jeśli nie jest dodany jako <script> w html-u
         this.name = name;
     }
 
