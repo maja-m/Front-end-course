@@ -20,9 +20,13 @@ interface Task {
 }
 
 function onStart() {
-    const button = document.getElementById('addButton') as HTMLButtonElement;
-    button.addEventListener('click', addTask);
-    renderTasks();
+    const addButton = document.getElementById('addButton') as HTMLButtonElement;
+    addButton.addEventListener('click', addTask);
+    const radioButtons = document.getElementsByName('type') as NodeListOf<HTMLInputElement>;
+    radioButtons.forEach(element => {
+        element.addEventListener('change', changeList)
+    });
+    renderTasks('all');
     
 }
 
@@ -32,14 +36,32 @@ function addTask(){
     textField.value = '';
     tasks.push({text: text, state: 'active'});
     saveTasks();
-    renderTasks();
+    renderTasks('all');
 }
 
-function renderTasks() {
+function changeList(){
+    const radioButtonAll = document.getElementById('all') as HTMLInputElement;
+    const radioButtonActive = document.getElementById('active') as HTMLInputElement;
+    const radioButtonCompleted = document.getElementById('completed') as HTMLInputElement;
+
+    if (radioButtonAll.checked)
+        renderTasks('all');
+    else if (radioButtonActive.checked)
+        renderTasks('active');
+    else
+        renderTasks('completed');
+}
+
+function renderTasks(listType:string) {
     const listContainer = document.getElementById('list') as HTMLDivElement;
     listContainer.innerHTML = '';
     for(let i=0; i<tasks.length; i++) {
-        listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
+        if(listType === 'all')
+            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
+        else if (listType === 'active' && tasks[i].state === 'active')
+            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
+        else if (listType === 'completed' && tasks[i].state === 'completed')
+            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
     }
 
     const taskDivs = document.getElementsByClassName('task') as HTMLCollectionOf<HTMLDivElement>;
@@ -63,5 +85,4 @@ function saveTasks() {
 
 function loadTasks() {
     return JSON.parse(localStorage.getItem('tasks') || '[]');
-     
 }
