@@ -54,21 +54,25 @@ function renderTasks(listType:string) {
     const listContainer = document.getElementById('list') as HTMLDivElement;
     listContainer.innerHTML = '';
     for(let i=0; i<tasks.length; i++) {
-        if(listType === 'all' || listType === 'active' && tasks[i].state === 'active' || listType === 'completed' && tasks[i].state === 'completed')
-            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span><button class="deleteButton" id="button' + i + '">Delete</button></div>';
+        if(listType === 'all' || listType === 'active' && tasks[i].state === 'active' || listType === 'completed' && tasks[i].state === 'completed') 
+            listContainer.innerHTML += '<div class="task"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span><button class="deleteButton" id="button' + i + '">Delete</button></div>'; 
     }
 
     const taskDivs = document.getElementsByClassName('task') as HTMLCollectionOf<HTMLDivElement>;
     let checkbox;
     for(let i=0; i<taskDivs.length; i++) {
         checkbox = taskDivs[i].childNodes.item(0) as HTMLInputElement;
+
+        if (tasks[i].state === 'completed')
+            checkbox.checked = true;
+
         checkbox.addEventListener('change', function() {
             if (tasks[i].state == 'active')
                 tasks[i].state = 'completed';
             else
                 tasks[i].state = 'active';
             saveTasks();
-            (taskDivs[i].childNodes.item(1) as HTMLInputElement).innerHTML = tasks[i].text + ', ' + tasks[i].state;
+            renderTasks('all');
         });
     }
 
@@ -78,6 +82,8 @@ function renderTasks(listType:string) {
             tasks.splice(i, 1);
             saveTasks();
             renderTasks('all');
+            const radioButtonAll = document.getElementById('all') as HTMLInputElement;
+            radioButtonAll.checked = true;
         });
     }
 }
