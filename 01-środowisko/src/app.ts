@@ -55,22 +55,31 @@ function renderTasks(listType:string) {
     listContainer.innerHTML = '';
     for(let i=0; i<tasks.length; i++) {
         if(listType === 'all' || listType === 'active' && tasks[i].state === 'active' || listType === 'completed' && tasks[i].state === 'completed')
-            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
+            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span><button class="deleteButton" id="button' + i + '">Delete</button></div>';
     }
 
     const taskDivs = document.getElementsByClassName('task') as HTMLCollectionOf<HTMLDivElement>;
-        let checkbox;
-        for(let i=0; i<taskDivs.length; i++) {
-            checkbox = taskDivs[i].childNodes.item(0) as HTMLInputElement;
-            checkbox.addEventListener('change', function() {
-                if (tasks[i].state == 'active')
-                    tasks[i].state = 'completed';
-                else
-                    tasks[i].state = 'active';
-                saveTasks();
-                (taskDivs[i].childNodes.item(1) as HTMLInputElement).innerHTML = tasks[i].text + ', ' + tasks[i].state;
-            });
-        }
+    let checkbox;
+    for(let i=0; i<taskDivs.length; i++) {
+        checkbox = taskDivs[i].childNodes.item(0) as HTMLInputElement;
+        checkbox.addEventListener('change', function() {
+            if (tasks[i].state == 'active')
+                tasks[i].state = 'completed';
+            else
+                tasks[i].state = 'active';
+            saveTasks();
+            (taskDivs[i].childNodes.item(1) as HTMLInputElement).innerHTML = tasks[i].text + ', ' + tasks[i].state;
+        });
+    }
+
+    const deleteButtons = document.getElementsByClassName('deleteButton') as HTMLCollectionOf<HTMLButtonElement>;
+    for(let i=0; i<deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener('click', function() {
+            tasks.splice(i, 1);
+            saveTasks();
+            renderTasks('all');
+        });
+    }
 }
 
 function saveTasks() {
