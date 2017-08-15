@@ -23,9 +23,7 @@ function onStart() {
     const addButton = document.getElementById('addButton') as HTMLButtonElement;
     addButton.addEventListener('click', addTask);
     const radioButtons = document.getElementsByName('type') as NodeListOf<HTMLInputElement>;
-    radioButtons.forEach(element => {
-        element.addEventListener('change', changeList)
-    });
+    radioButtons.forEach(element => element.addEventListener('change', changeList));
     renderTasks('all');
     
 }
@@ -56,11 +54,7 @@ function renderTasks(listType:string) {
     const listContainer = document.getElementById('list') as HTMLDivElement;
     listContainer.innerHTML = '';
     for(let i=0; i<tasks.length; i++) {
-        if(listType === 'all')
-            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
-        else if (listType === 'active' && tasks[i].state === 'active')
-            listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
-        else if (listType === 'completed' && tasks[i].state === 'completed')
+        if(listType === 'all' || listType === 'active' && tasks[i].state === 'active' || listType === 'completed' && tasks[i].state === 'completed')
             listContainer.innerHTML += '<div class="task" id="' + i + '"><input type="checkbox"><span>' + tasks[i].text + ', ' + tasks[i].state + '</span></div>';
     }
 
